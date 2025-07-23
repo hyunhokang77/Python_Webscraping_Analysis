@@ -1,0 +1,34 @@
+# 01_news_scraping.ipynb
+
+import requests
+from bs4 import BeautifulSoup
+
+# URL 설정
+url = 'https://news.daum.net/economy'
+print(url)
+
+# 요청 보내기 (UTF-8 인코딩)
+response = requests.get(url)
+response.encoding = 'utf-8'  # UTF-8 인코딩 지정
+print(type(response))
+print(response.status_code)
+
+# HTML 파싱
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# 경제 뉴스 기사 리스트 추출
+articles = soup.select('ul.list_news2 a.link_txt')  # 다음 경제 뉴스 구조에 맞는 선택자
+print(type(articles), len(articles))
+
+# 기사 링크와 제목 출력 (앞 9개만)
+for a in articles[:9]:
+    link = a['href']
+    title = a.get_text(strip=True)
+    print(link)
+    print(title)
+
+
+
+
+    
+
